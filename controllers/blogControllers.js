@@ -1,8 +1,18 @@
 const Blog = require('../models/blogModel');
 const mongoose = require('mongoose');
+
+
 const blog_get = (req,res)=>{
-    res.send('karim');
+  Blog.find()
+  .then((result)=>{
+    res.render('index', { blogs: result, title: 'All blogs' });
+  })
+  .catch((err)=>{
+    console.log(err);
+  })
 };
+
+
 
 const blog_post = (req,res)=>{
     const blog = new Blog(req.body);
@@ -16,16 +26,33 @@ const blog_post = (req,res)=>{
     })
 };
 
+
 const blog_get_create = (req,res)=>{
-    res.send('mourad');
+   res.render('create',{title: 'Create a blog'});
 };
 
+
+
 const blog_get_detaills = (req,res)=>{
-    res.send('momo');
+    Blog.findById(req.params.id)
+    .then((result)=>{
+        res.render('detaills',{blog:result,title: 'Detaills'});
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
 };
 
 const blog_delete = (req,res)=>{
-    res.send('sofiane');
+    Blog.findByIdAndDelete(req.params.id)
+    .then((result)=>{
+        res.json({
+            'redirect':'/blogs'
+        });
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
 };
 
 module.exports = {

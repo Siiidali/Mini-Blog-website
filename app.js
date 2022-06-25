@@ -19,14 +19,15 @@ mongoose.connect(dbURL,{ useNewUrlParser: true , useUnifiedTopology:true}).then(
     console.log(error);
 });
 
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.json());
 app.get('/',(req,res)=>{
     res.redirect('/blogs');
 });
 
 app.get('/about',(req,res)=>{
-    res.send('about');
+    res.render('about',{title: 'about us'});
 });
 
 app.use('/blogs',blogRoutes);
